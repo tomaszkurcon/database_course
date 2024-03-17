@@ -43,7 +43,7 @@ CREATE OR REPLACE PROCEDURE p_modify_reservation_status(p_reservation_id in RESE
     p_trip_id TRIP.trip_id%type;
     old_status RESERVATION.status%type;
 BEGIN
-    SELECT trip_id into p_trip_id FROM RESERVATION WHERE RESERVATION_ID = p_reservation_id;
+    SELECT trip_id, status into p_trip_id, old_status FROM RESERVATION WHERE RESERVATION_ID = p_reservation_id;
     IF F_GET_AVILABLE_PLACES(p_trip_id) < 1  AND old_status = 'C' AND p_status <> 'C' then
         raise_application_error(-20001, 'Brak wolnych miejsc');
     end if;
@@ -101,9 +101,7 @@ CREATE OR REPLACE PROCEDURE p_modify_reservation_status_4(p_reservation_id in RE
     p_trip_id TRIP.trip_id%type;
     old_status RESERVATION.status%type;
 BEGIN
-    SELECT STATUS into old_status FROM RESERVATION
-    WHERE RESERVATION_ID = p_reservation_id;
-    SELECT trip_id into p_trip_id FROM RESERVATION WHERE RESERVATION_ID = p_reservation_id;
+    SELECT trip_id, STATUS into p_trip_id, status FROM RESERVATION WHERE RESERVATION_ID = p_reservation_id;
     IF F_GET_AVILABLE_PLACES(p_trip_id) < 1 AND old_status = 'C' AND p_status <> 'C' then
         raise_application_error(-20001, 'Brak wolnych miejsc');
     end if;
@@ -133,9 +131,7 @@ BEGIN
     WHERE RESERVATION_ID = p_reservation_id;
 end;
 
-
--- begin
---     p_add_reservation_5(2, 2);
---         p_modify_reservation_status(24, 'C');
--- --     p_modify_reservation_status_4(11, 'C');
+-- BEGIN
+-- --     p_add_reservation_5(2, 6);
+--     p_modify_reservation_status_5(11, 'N');
 -- end;
