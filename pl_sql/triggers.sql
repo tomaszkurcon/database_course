@@ -1,26 +1,24 @@
-CREATE OR REPLACE TRIGGER tr_check_reservation
-    BEFORE INSERT OR UPDATE
+CREATE OR REPLACE TRIGGER tr_check_reservation_insert
+    BEFORE INSERT
+    ON RESERVATION
+    FOR EACH ROW
+BEGIN
+    P_TRIP_EXIST(:new.TRIP_ID);
+    P_TRIP_OUTDATED(:new.TRIP_ID);
+    P_PERSON_EXIST(:new.PERSON_ID);
+    IF F_GET_AVILABLE_PLACES(:new.trip_id) < 1 then
+        raise_application_error(-20001, 'Brak wolnych miejsc');
+    end if;
+end;
+
+CREATE OR REPLACE TRIGGER tr_check_reservation_update
+    BEFORE UPDATE
     ON RESERVATION
     FOR EACH ROW
 DECLARE
     pragma autonomous_transaction;
-    p_trip_date VW_TRIP.trip_date%type;
-    p_status    RESERVATION.status%type;
 BEGIN
-    SELECT t.TRIP_DATE
-    into p_trip_date
-    FROM TRIP t
-    WHERE t.TRIP_ID = :new.trip_id;
-    if :old.status is NULL then
-        p_status := 'C';
-    else
-        p_status := :old.status;
-    end if;
-    IF p_trip_date < SYSDATE then
-        raise_application_error(-20001, 'Wycieczka się już odbyła');
-    end if;
-
-    IF F_GET_AVILABLE_PLACES(:new.trip_id) < 1 and p_status = 'C' and :new.status <> 'C' then
+    IF F_GET_AVILABLE_PLACES(:new.trip_id) < 1 and :old.status = 'C' and :new.status <> 'C' then
         raise_application_error(-20001, 'Brak wolnych miejsc');
     end if;
 end;

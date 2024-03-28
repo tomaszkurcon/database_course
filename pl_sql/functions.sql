@@ -23,6 +23,7 @@ CREATE OR REPLACE TYPE trip_participant AS OBJECT
 CREATE OR REPLACE TYPE trip_participants_table IS TABLE OF trip_participant;
 
 
+
 CREATE OR REPLACE FUNCTION f_trip_participants(trip_id IN TRIP.trip_id%type)
     RETURN trip_participants_table AS
     result trip_participants_table;
@@ -41,10 +42,11 @@ BEGIN
     FROM vw_reservation v
     WHERE v.trip_id = f_trip_participants.trip_id;
     RETURN result;
-
 END;
 
--- SELECT * FROM F_TRIP_PARTICIPANTS(5)
+-- Work
+-- SELECT * FROM f_trip_participants(4);
+
 
 CREATE OR REPLACE FUNCTION f_person_reservations(person_id IN PERSON.person_id%type)
     RETURN trip_participants_table AS
@@ -66,7 +68,8 @@ BEGIN
     RETURN result;
 END;
 
--- SELECT * FROM F_PERSON_RESERVATIONS(1)
+--Work
+--SELECT * FROM F_PERSON_RESERVATIONS(20)
 
 
 CREATE OR REPLACE TYPE trip_info AS OBJECT
@@ -103,6 +106,6 @@ BEGIN
     RETURN result;
 
 end;
-
--- SELECT * FROM F_AVAILABLE_TRIPS_TO('Polska', '2022-05-02', '2026-05-04')
+--Work
+--SELECT * FROM F_AVAILABLE_TRIPS_TO('Polska', '2022-05-02', '2026-05-04')
 
