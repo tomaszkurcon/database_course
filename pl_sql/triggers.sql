@@ -6,7 +6,7 @@ BEGIN
     P_TRIP_EXIST(:new.TRIP_ID);
     P_TRIP_OUTDATED(:new.TRIP_ID);
     P_PERSON_EXIST(:new.PERSON_ID);
-    IF F_GET_AVILABLE_PLACES(:new.trip_id) < 1 then
+    IF F_GET_available_PLACES(:new.trip_id) < 1 then
         raise_application_error(-20001, 'Brak wolnych miejsc');
     end if;
 end;
@@ -15,12 +15,12 @@ CREATE OR REPLACE TRIGGER tr_check_reservation_update
     BEFORE UPDATE
     ON RESERVATION
     FOR EACH ROW
-DECLARE
-    pragma autonomous_transaction;
 BEGIN
-    IF F_GET_AVILABLE_PLACES(:new.trip_id) < 1 and :old.status = 'C' and :new.status <> 'C' then
+    IF F_GET_available_PLACES(:new.trip_id) < 1 and :old.status = 'C' and :new.status <> 'C' then
+        rollback;
         raise_application_error(-20001, 'Brak wolnych miejsc');
     end if;
+    commit;
 end;
 
 CREATE OR REPLACE TRIGGER tr_add_log

@@ -13,7 +13,7 @@ BEGIN
             WHERE TRIP.TRIP_ID = v_trip.TRIP_ID;
         end loop;
 end;
-CREATE OR REPLACE FUNCTION f_get_avilable_places_6(p_trip_id TRIP.trip_id%type)
+CREATE OR REPLACE FUNCTION f_get_available_places_6(p_trip_id TRIP.trip_id%type)
     RETURN INT AS
     value int;
 BEGIN
@@ -57,7 +57,7 @@ end;
 --     P_TRIP_EXIST(p_trip_id);
 --     P_PERSON_EXIST(person_id);
 --     p_trip_outdated(p_trip_id);
---     IF F_GET_AVILABLE_PLACES_6(p_trip_id) < 1 then
+--     IF F_GET_available_PLACES_6(p_trip_id) < 1 then
 --         raise_application_error(-20001, 'Brak wolnych miejsc');
 --     end if;
 --     r_reservation.trip_id := p_trip_id;
@@ -78,7 +78,7 @@ end;
 -- BEGIN
 --     P_RESERVATION_EXIST(p_reservation_id);
 --      SELECT trip_id, STATUS into p_trip_id, old_status FROM RESERVATION WHERE RESERVATION_ID = p_reservation_id;
---     IF F_GET_AVILABLE_PLACES_6(p_trip_id) < 1  AND old_status = 'C' AND p_status <> 'C' then
+--     IF F_GET_available_PLACES_6(p_trip_id) < 1  AND old_status = 'C' AND p_status <> 'C' then
 --         raise_application_error(-20001, 'Brak wolnych miejsc');
 --     end if;
 --     UPDATE RESERVATION

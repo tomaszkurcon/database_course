@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION f_get_avilable_places(p_trip_id TRIP.trip_id%type)
+CREATE OR REPLACE FUNCTION f_get_available_places(p_trip_id TRIP.trip_id%type)
     RETURN INT AS
     value int;
 BEGIN
@@ -104,8 +104,7 @@ BEGIN
       and t.NO_AVAILABLE_PLACES > 0;
 
     RETURN result;
-
 end;
 --Work
---SELECT * FROM F_AVAILABLE_TRIPS_TO('Polska', '2022-05-02', '2026-05-04')
+SELECT * FROM F_AVAILABLE_TRIPS_TO('Polska', '2022-05-02', '2026-05-04')
 

@@ -60,7 +60,7 @@ BEGIN
     p_trip_exist(trip_id);
     p_person_exist(person_id);
     p_trip_outdated(trip_id);
-    IF F_GET_AVILABLE_PLACES(trip_id) < 1 then
+    IF F_GET_available_PLACES(trip_id) < 1 then
         raise_application_error(-20001, 'Brak wolnych miejsc');
     end if;
     r_reservation.trip_id := trip_id;
@@ -86,7 +86,7 @@ CREATE OR REPLACE PROCEDURE p_modify_reservation_status(p_reservation_id in RESE
 BEGIN
     p_reservation_exist(p_reservation_id);
     SELECT trip_id, status into p_trip_id, old_status FROM RESERVATION WHERE RESERVATION_ID = p_reservation_id;
-    IF F_GET_AVILABLE_PLACES(p_trip_id) < 1  AND old_status = 'C' AND p_status <> 'C' then
+    IF F_GET_available_PLACES(p_trip_id) < 1  AND old_status = 'C' AND p_status <> 'C' then
         raise_application_error(-20001, 'Brak wolnych miejsc');
     end if;
     UPDATE RESERVATION
@@ -107,7 +107,7 @@ CREATE OR REPLACE PROCEDURE p_modify_max_no_places(p_trip_id TRIP.trip_id%type,
 BEGIN
     p_trip_exist(p_trip_id);
     SELECT MAX_NO_PLACES into max_no_places FROM TRIP WHERE TRIP_ID = p_trip_id;
-    IF p_max_no_places < max_no_places - F_GET_AVILABLE_PLACES(p_trip_id) then
+    IF p_max_no_places < max_no_places - F_GET_available_PLACES(p_trip_id) then
         raise_application_error(-20001,
                                 'Liczba miejsc zarezerwowanych jest wieksza od nowej podanej maksymalnej liczby miejsc');
     end if;
@@ -128,7 +128,7 @@ CREATE OR REPLACE PROCEDURE p_add_reservation_4(trip_id in VW_TRIP.trip_id%type,
 BEGIN
     p_trip_exist(trip_id);
     p_trip_outdated(trip_id);
-    IF F_GET_AVILABLE_PLACES(trip_id) < 1 then
+    IF F_GET_available_PLACES(trip_id) < 1 then
         raise_application_error(-20001, 'Brak wolnych miejsc');
     end if;
     r_reservation.trip_id := trip_id;
@@ -151,7 +151,7 @@ CREATE OR REPLACE PROCEDURE p_modify_reservation_status_4(p_reservation_id in RE
 BEGIN
     p_reservation_exist(p_reservation_id);
     SELECT trip_id, status into p_trip_id, old_status FROM RESERVATION WHERE RESERVATION_ID = p_reservation_id;
-    IF F_GET_AVILABLE_PLACES(p_trip_id) < 1  AND old_status = 'C' AND p_status <> 'C' then
+    IF F_GET_available_PLACES(p_trip_id) < 1  AND old_status = 'C' AND p_status <> 'C' then
         raise_application_error(-20001, 'Brak wolnych miejsc');
     end if;
     UPDATE RESERVATION
@@ -192,5 +192,5 @@ end;
 
 BEGIN
 --     p_add_reservation_5(3, 6);
-    p_modify_reservation_status_5(421, 'N');
+    p_modify_reservation_status_5(41, 'N');
 end;
