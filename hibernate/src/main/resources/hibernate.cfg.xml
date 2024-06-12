@@ -13,5 +13,8 @@
         <property name="use_sql_comments">true</property>
         <property name="hbm2ddl.auto">update</property>
         <mapping class="org.example.Product"></mapping>
+        <mapping class="org.example.Supplier"></mapping>
+        <mapping class="org.example.Category"></mapping>
+<!--        <mapping class="org.example.SupplierProduct"></mapping>-->
     </session-factory>
 </hibernate-configuration>

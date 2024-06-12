@@ -1,8 +1,8 @@
 package org.example;
 
+import org.example.exercises.Exercise_4;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 public class Main {
@@ -11,10 +11,11 @@ public class Main {
     public static void main(String[] args) {
         sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
-        Product product = new Product("Laptop", 3);
-        Transaction transaction = session.beginTransaction();
-        session.save(product);
-        transaction.commit();
+//        Exercise_1.run(session);
+//        Exercise_2.runA(session);
+//        Exercise_2.runB(session);
+//        Exercise_3.run(session);
+        Exercise_4.run(session);
         session.close();
     }
 
